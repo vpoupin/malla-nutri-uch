@@ -109,8 +109,8 @@ for (const semestre of semestres) {
 
 function aprobarRamo(ramo) {
   const div = document.getElementById(ramo.id);
-  if (div.classList.contains("aprobado")) return;
-  div.classList.add("aprobado");
+  const yaAprobado = div.classList.contains("aprobado");
+  div.classList.toggle("aprobado");
   actualizarRamos();
 }
 
@@ -123,6 +123,9 @@ function actualizarRamos() {
       );
       div.style.opacity = requisitosCumplidos ? 1 : 0.3;
       div.style.pointerEvents = requisitosCumplidos ? "auto" : "none";
+    } else {
+      div.style.opacity = 1;
+      div.style.pointerEvents = "auto";
     }
   });
 }
