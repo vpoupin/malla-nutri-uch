@@ -109,7 +109,7 @@ for (const semestre of semestres) {
 
 function aprobarRamo(ramo) {
   const div = document.getElementById(ramo.id);
-  const yaAprobado = div.classList.contains("aprobado");
+  const estabaAprobado = div.classList.contains("aprobado");
   div.classList.toggle("aprobado");
   actualizarRamos();
 }
@@ -117,17 +117,16 @@ function aprobarRamo(ramo) {
 function actualizarRamos() {
   ramos.forEach(ramo => {
     const div = document.getElementById(ramo.id);
-    if (!div.classList.contains("aprobado")) {
-      const requisitosCumplidos = ramo.requisitos.every(req =>
-        document.getElementById(req)?.classList.contains("aprobado")
-      );
-      div.style.opacity = requisitosCumplidos ? 1 : 0.3;
-      div.style.pointerEvents = requisitosCumplidos ? "auto" : "none";
-    } else {
+    const requisitosCumplidos = ramo.requisitos.every(req =>
+      document.getElementById(req)?.classList.contains("aprobado")
+    );
+    if (div.classList.contains("aprobado")) {
       div.style.opacity = 1;
       div.style.pointerEvents = "auto";
+    } else {
+      div.style.opacity = requisitosCumplidos ? 1 : 0.3;
+      div.style.pointerEvents = requisitosCumplidos ? "auto" : "none";
     }
   });
 }
 
-actualizarRamos();
