@@ -62,4 +62,7 @@ h1 {
   opacity: 1 !important;
   color: #311b92;
 }
+.ramo.no-aprobado {
+  border-style: dashed;
+}
 
