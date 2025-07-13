@@ -22,7 +22,7 @@ const ramos = [
   { id: "evaluacion", nombre: "Evaluación del Estado Nutricional", requisitos: ["fisiologia_general", "alimentos2"] },
   { id: "culinarias1", nombre: "Técnicas Culinarias I", requisitos: ["alimentos2"] },
   { id: "tecnologia", nombre: "Tecnología de los Alimentos", requisitos: ["alimentos2"] },
-  { id: "epidemiologia", nombre: "Epidemiología y Bioestadística", requisitos: ["css"] },
+  { id: "epidemiologia", nombre: "Epidemiología y Bioestadística", requisitos: [] }, // corregido
 
   // 4to Semestre
   { id: "dietetica_infantil", nombre: "Dietética Infanto Juvenil", requisitos: ["fisiologia_sistemas", "bioquimica", "evaluacion"] },
@@ -49,7 +49,7 @@ const ramos = [
   { id: "organizacion", nombre: "Organización en Servicios de Alimentación Colectiva", requisitos: ["planificacion_servicios"] },
   { id: "desarrollo", nombre: "Desarrollo Social y Comunitario", requisitos: ["cultura"] },
   { id: "planificacion_educativa", nombre: "Planificación de Programas Educativos", requisitos: ["dietetica_adulto", "comunicacion"] },
-  { id: "metodologia", nombre: "Metodología de Investigación", requisitos: ["epidemiologia"] },
+  { id: "metodologia", nombre: "Metodología de Investigación", requisitos: [] },
 
   // 7mo Semestre
   { id: "dietoterapia2", nombre: "Dietoterapia II", requisitos: ["dietoterapia1"] },
@@ -69,8 +69,6 @@ const ramos = [
   { id: "modulo2", nombre: "Módulo Integrado Interdisciplinario Multiprofesional II", requisitos: ["modulo1"] }
 ];
 
-const mallaDiv = document.getElementById("malla");
-
 const semestres = [
   "1er Semestre", "2do Semestre", "3er Semestre", "4to Semestre",
   "5to Semestre", "6to Semestre", "7mo Semestre", "8vo Semestre"
@@ -86,6 +84,8 @@ const ramosPorSemestre = {
   "7mo Semestre": ["dietoterapia2", "fisiopato2", "calidad", "direccion", "nutricion1", "diseno"],
   "8vo Semestre": ["ejercicio", "nutricion_clinica", "seminario", "control", "nutricion2", "ejecucion", "modulo2"]
 };
+
+const mallaDiv = document.getElementById("malla");
 
 for (const semestre of semestres) {
   const contenedor = document.createElement("div");
@@ -109,7 +109,6 @@ for (const semestre of semestres) {
 
 function aprobarRamo(ramo) {
   const div = document.getElementById(ramo.id);
-  const estabaAprobado = div.classList.contains("aprobado");
   div.classList.toggle("aprobado");
   actualizarRamos();
 }
@@ -120,13 +119,16 @@ function actualizarRamos() {
     const requisitosCumplidos = ramo.requisitos.every(req =>
       document.getElementById(req)?.classList.contains("aprobado")
     );
-    if (div.classList.contains("aprobado")) {
+    const accesible = requisitosCumplidos;
+
+    if (!div.classList.contains("aprobado")) {
+      div.style.opacity = accesible ? 1 : 0.3;
+      div.style.pointerEvents = accesible ? "auto" : "none";
+    } else {
       div.style.opacity = 1;
       div.style.pointerEvents = "auto";
-    } else {
-      div.style.opacity = requisitosCumplidos ? 1 : 0.3;
-      div.style.pointerEvents = requisitosCumplidos ? "auto" : "none";
     }
   });
 }
 
+actualizarRamos();
